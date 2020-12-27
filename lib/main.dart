@@ -13,6 +13,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool _value1 = true;
+  bool _value2 = false;
+
+  void _value1Changed(bool value) => setState(() => _value1 = value);
+  void _value2Changed(bool value) => setState(() => _value2 = value);
+
+
   String _value = "";
 
   void onChange(String value){
@@ -108,7 +115,23 @@ class _MyAppState extends State<MyApp> {
                 keyboardType: TextInputType.text,
                 onChanged: onChange,
                 onSubmitted: onSubmit,
-              )
+              ),
+              CheckboxListTile(
+                value: _value1,
+                onChanged: _value1Changed,
+                title: Text("title"),
+                subtitle: Text("Subtitle"),
+                activeColor: Colors.blue,
+                secondary: Icon(Icons.input),
+              ),
+              CheckboxListTile(
+                value: _value2,
+                onChanged: _value2Changed,
+                title: Text("title"),
+                subtitle: Text("Subtitle"),
+                activeColor: Colors.blue,
+                secondary: Icon(Icons.input),
+              ),
             ],
           ),
         ),
