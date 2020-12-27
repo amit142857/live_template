@@ -13,13 +13,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _value = "Hello word";
-  int count = 1;
-  void _onClick() {
-    setState(() {
-      _value = "you clicked me $count times";
-      count++;
-    });
+  String _value = "";
+
+  void onChange(String value){
+    setState(() =>
+      _value = 'Change: ${value}'
+    );
+  }
+  void onSubmit(String value){
+    setState(() =>
+      _value = 'Submit: ${value}'
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -92,13 +96,18 @@ class _MyAppState extends State<MyApp> {
         child: Center(
           child: Column(
             children:<Widget> [
-              Text(_value),
-              RaisedButton(
-                onPressed: () {
-                  _onClick();
-                  debugPrint("Click garis haina ta??");
-                },
-                child: Text("Click me"),
+              Text("$_value"),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: "Label",
+                  hintText: "Hint",
+                  icon: Icon(Icons.people),
+                ),
+                autocorrect: true,
+                autofocus: true,
+                keyboardType: TextInputType.text,
+                onChanged: onChange,
+                onSubmitted: onSubmit,
               )
             ],
           ),
