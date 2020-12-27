@@ -95,6 +95,7 @@ class _MyAppState extends State<MyApp> {
               RaisedButton(
                 onPressed: () {
                   _onClick();
+                  debugPrint("Click garis haina ta??");
                 },
                 child: Text("Click me"),
               )
