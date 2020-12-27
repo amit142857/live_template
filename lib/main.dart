@@ -14,10 +14,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _value = "Hello word";
-
+  int count = 1;
   void _onClick() {
     setState(() {
-      _value = "My name is RaisedButom";
+      _value = "you clicked me $count times";
+      count++;
     });
   }
   @override
