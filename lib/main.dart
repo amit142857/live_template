@@ -13,6 +13,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String _value = "Hello word";
+
+  void _onClick() {
+    setState(() {
+      _value = "My name is RaisedButom";
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +91,13 @@ class _MyAppState extends State<MyApp> {
         child: Center(
           child: Column(
             children:<Widget> [
-
+              Text(_value),
+              RaisedButton(
+                onPressed: () {
+                  _onClick();
+                },
+                child: Text("Click me"),
+              )
             ],
           ),
         ),
