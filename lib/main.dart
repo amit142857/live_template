@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,125 +14,65 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _value1 = true;
-  bool _value2 = false;
+  int _value1 = 0;
+  int _value2 = 0;
 
-  void _value1Changed(bool value) => setState(() => _value1 = value);
-  void _value2Changed(bool value) => setState(() => _value2 = value);
+  void _Setvalue1(int value) => setState(() => _value1 = value);
+  void _Setvalue2(int value) => setState(() => _value2 = value);
 
+  Widget makeRadios() {
+    List <Widget> list = List<Widget>();
 
-  String _value = "";
+    for (int i=0; i < 3; i++){
+      list.add(new Radio(
+        value:i ,
+        groupValue: _value1 ,
+        onChanged: _Setvalue1,
+        activeColor: Colors.red,
+        focusColor: Colors.blue,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        mouseCursor: MouseCursor.defer,
+      ));
+    }
 
-  void onChange(String value){
-    setState(() =>
-      _value = 'Change: ${value}'
-    );
+    Column column = new Column(children: list);
+    return column;
   }
-  void onSubmit(String value){
-    setState(() =>
-      _value = 'Submit: ${value}'
-    );
+
+  Widget makeRadiotiles() {
+    List <Widget> list = List<Widget>();
+
+    for (int i=0; i < 3; i++){
+      list.add(new RadioListTile(
+        value:i ,
+        groupValue: _value2 ,
+        onChanged: _Setvalue2,
+        subtitle: Text("Human"),
+        title: Text("H"),
+        secondary: Icon(Icons.person),
+      ));
+    }
+
+    Column column = new Column(children: list);
+    return column;
   }
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Name here"),
+    return new Scaffold(
+      appBar: new AppBar(
+        title:new Text("Name here"),
       ),
-      drawer: Drawer(
-        child: Center(
-          child: ListView(
-            children: <Widget> [
-              UserAccountsDrawerHeader(
-                accountName: Text("Amit Yadav"),
-                accountEmail: Text("Ydvamit82@gmail.com"),
-                currentAccountPicture: CircleAvatar(
-                  child: Container(
-                    width: 300,
-                    height: 250,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("Images/amit.jpg"),
-                      )
-                    ),
-                  )
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.home),
-                title: Text("Home"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text("Profile"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.message),
-                title: Text("Chat with us"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Setting"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.amp_stories_sharp),
-                title: Text("About US"),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Container(
+
+      body: new Container(
         padding: EdgeInsets.all(32),
         child: Center(
-          child: Column(
+          child: new Column(
             children:<Widget> [
-              Text("$_value"),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Label",
-                  hintText: "Hint",
-                  icon: Icon(Icons.people),
-                ),
-                autocorrect: true,
-                autofocus: true,
-                keyboardType: TextInputType.text,
-                onChanged: onChange,
-                onSubmitted: onSubmit,
-              ),
-              CheckboxListTile(
-                value: _value1,
-                onChanged: _value1Changed,
-                title: Text("title"),
-                subtitle: Text("Subtitle"),
-                activeColor: Colors.blue,
-                secondary: Icon(Icons.input),
-              ),
-              CheckboxListTile(
-                value: _value2,
-                onChanged: _value2Changed,
-                title: Text("title"),
-                subtitle: Text("Subtitle"),
-                activeColor: Colors.blue,
-                secondary: Icon(Icons.input),
-              ),
+              makeRadios(),
+              makeRadiotiles()
             ],
           ),
         ),
