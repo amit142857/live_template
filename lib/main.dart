@@ -14,9 +14,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-    String _value = "";
-    void _onClicked(String value) => setState(() => _value = value);
+  List<BottomNavigationBarItem> _items;
+  String _value = "";
+  int _index = 0;
 
+  @override
+  void initState() {
+  _items = List();
+  _items.add(BottomNavigationBarItem(
+    icon: Icon(Icons.person),
+    // ignore: deprecated_member_use
+    title: Text("People")
+  )
+  );
+  _items.add(BottomNavigationBarItem(
+      icon: Icon(Icons.settings),
+      // ignore: deprecated_member_use
+      title: Text("Setting")
+  )
+  );
+  _items.add(BottomNavigationBarItem(
+      icon: Icon(Icons.info),
+      // ignore: deprecated_member_use
+      title: Text("About")
+  )
+  );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +48,19 @@ class _MyAppState extends State<MyApp> {
         title:new Text("Name here"),
         backgroundColor: Colors.red,
       ),
-      persistentFooterButtons:<Widget> [
-        IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () => _onClicked("Button Home"),
-        ),
-        IconButton(
-          icon: Icon(Icons.person),
-          onPressed: () => _onClicked("Button Person"),
-        ),
-        IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () => _onClicked("Button Setting"),
-        ),
-      ],
+      bottomNavigationBar: BottomNavigationBar(
+        items: _items,
+        fixedColor: Colors.blue,
+        backgroundColor: Colors.pink[50],
+        currentIndex: _index,
+        onTap: (int item){
+          setState(() {
+            _index = item;
+            _value = _index.toString();
+          });
+        }
+      ),
+
       body: Container(
         padding: EdgeInsets.all(32),
         child: Center(
@@ -57,4 +79,6 @@ class _MyAppState extends State<MyApp> {
 
     );
   }
+
+
 }
