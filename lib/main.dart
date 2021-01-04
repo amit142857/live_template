@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
     String _value = "";
-    void _onClicked() => setState(() => _value = DateTime.now().toString());
+    void _onClicked(String value) => setState(() => _value = value);
 
 
   @override
@@ -25,18 +25,26 @@ class _MyAppState extends State<MyApp> {
         title:new Text("Name here"),
         backgroundColor: Colors.red,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _onClicked,
-        backgroundColor: Colors.red,
-        mini: true,
-        child: Icon(Icons.timer),
-      ),
+      persistentFooterButtons:<Widget> [
+        IconButton(
+          icon: Icon(Icons.home),
+          onPressed: () => _onClicked("Button Home"),
+        ),
+        IconButton(
+          icon: Icon(Icons.person),
+          onPressed: () => _onClicked("Button Person"),
+        ),
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () => _onClicked("Button Setting"),
+        ),
+      ],
       body: Container(
         padding: EdgeInsets.all(32),
         child: Center(
           child: Column(
             children:<Widget> [
-              Text(_value.toString(),
+              Text(_value,
               style: TextStyle(
                 fontSize: 37,
                 fontWeight: FontWeight.bold
