@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
 
 void main() {
   runApp(MaterialApp(
@@ -15,26 +14,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-    int _value = 0;
+    String _value = "";
+    void _onClicked() => setState(() => _value = DateTime.now().toString());
 
-    void _add() => setState(() => _value++);
-    void _sub() => setState(() => _value--);
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title:new Text("Name here"),
         backgroundColor: Colors.red,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: _add,
-          ),
-          IconButton(
-            icon: Icon(Icons.remove),
-            onPressed: _sub,
-          )
-        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _onClicked,
+        backgroundColor: Colors.red,
+        mini: true,
+        child: Icon(Icons.timer),
       ),
       body: Container(
         padding: EdgeInsets.all(32),
@@ -47,7 +42,6 @@ class _MyAppState extends State<MyApp> {
                 fontWeight: FontWeight.bold
               ),
               ),
-
             ],
           ),
         ),
