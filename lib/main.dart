@@ -15,38 +15,44 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _value = "";
-  Future _selectDate() async{
-    DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2010),
-      lastDate: DateTime(2200)
-    );
-    if (picked != null) setState(() => _value = picked.toString());
-  }
+    int _value = 0;
 
+    void _add() => setState(() => _value++);
+    void _sub() => setState(() => _value--);
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title:new Text("Name here"),
+        backgroundColor: Colors.red,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _add,
+          ),
+          IconButton(
+            icon: Icon(Icons.remove),
+            onPressed: _sub,
+          )
+        ],
       ),
-
-      body: new Container(
+      body: Container(
         padding: EdgeInsets.all(32),
         child: Center(
-          child: new Column(
+          child: Column(
             children:<Widget> [
-              Text("$_value"),
-              RaisedButton(
-                onPressed: _selectDate,
-                child: Text("Select date"),
-              )
+              Text(_value.toString(),
+              style: TextStyle(
+                fontSize: 37,
+                fontWeight: FontWeight.bold
+              ),
+              ),
+
             ],
           ),
         ),
-      ),
+      )
+
     );
   }
 }
