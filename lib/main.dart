@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'dart:async';
 
 void main() {
   runApp(MaterialApp(
@@ -14,18 +15,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
 
-  void _showbar() {
-    // ignore: deprecated_member_use
-    _scaffoldstate.currentState.showSnackBar(
-        new SnackBar(
-          content: Text("This is snackbar"),duration: Duration(milliseconds: 900),));
+  Future _showalert(BuildContext context, String message) async{
+    return showDialog(
+      context: context,
+      // ignore: deprecated_member_use
+      child: AlertDialog(
+        title: Text(message),
+        scrollable: true,
+        content: Text("The battery health of your phone is very very low, please change it ASAP"),
+        actions: [
+          FlatButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Close alert"),
+          )
+        ],
+      )
+    );
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      key: _scaffoldstate,
       appBar: new AppBar(
         title:new Text("Name here"),
         backgroundColor: Colors.red,
@@ -38,8 +49,8 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children:<Widget> [
               RaisedButton(
-                onPressed: _showbar,
-                child: Text('Show snackbar'),
+                onPressed:() => _showalert(context, "Battery!!"),
+                child: Text("Show alert"),
               )
             ],
           ),
