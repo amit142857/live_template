@@ -14,31 +14,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<BottomNavigationBarItem> _items;
-  String _value = "";
-  int _index = 0;
-
-  @override
-  void initState() {
-  _items = List();
-  _items.add(BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    // ignore: deprecated_member_use
-    title: Text("People")
-  )
-  );
-  _items.add(BottomNavigationBarItem(
-      icon: Icon(Icons.settings),
-      // ignore: deprecated_member_use
-      title: Text("Setting")
-  )
-  );
-  _items.add(BottomNavigationBarItem(
-      icon: Icon(Icons.info),
-      // ignore: deprecated_member_use
-      title: Text("About")
-  )
-  );
+  void _showBottom(){
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context){
+        return Container(
+          padding: EdgeInsets.all(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:<Widget> [
+              Text("This is bottom sheet",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23
+                ),
+              ),
+              Spacer(),
+              RaisedButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Close'),
+              )
+            ],
+          ),
+        );
+    }
+    );
   }
 
   @override
@@ -48,30 +49,17 @@ class _MyAppState extends State<MyApp> {
         title:new Text("Name here"),
         backgroundColor: Colors.red,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: _items,
-        fixedColor: Colors.blue,
-        backgroundColor: Colors.pink[50],
-        currentIndex: _index,
-        onTap: (int item){
-          setState(() {
-            _index = item;
-            _value = _index.toString();
-          });
-        }
-      ),
+
 
       body: Container(
         padding: EdgeInsets.all(32),
         child: Center(
           child: Column(
             children:<Widget> [
-              Text(_value,
-              style: TextStyle(
-                fontSize: 37,
-                fontWeight: FontWeight.bold
-              ),
-              ),
+                RaisedButton(
+                  onPressed: () => _showBottom(),
+                  child: Text("Show bottom sheet"),
+                )
             ],
           ),
         ),
