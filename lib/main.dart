@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
 
 void main() {
   runApp(MaterialApp(
@@ -15,8 +14,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 class _MyAppState extends State<MyApp> {
-  TextEditingController _user = new TextEditingController();
-  TextEditingController _pass = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -29,34 +27,20 @@ class _MyAppState extends State<MyApp> {
         child: Center(
           child: Column(
             children:<Widget> [
-              Text("Please Login"),
-              Row(
-                children:<Widget> [
-                  Text("Username: "),
-                  Expanded(
-                    child: TextField(
-                      controller: _user,
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                children:<Widget> [
-                  Text("Password: "),
-                  Expanded(
-                    child: TextField(
-                      controller: _pass,
-                      obscureText: true,
-                    ),
-                  )
-                ],
-              ),
-              Padding(padding: EdgeInsets.all(12),
-              child: RaisedButton(
-                onPressed: () => print("Login ${_user.text}"),
-                child: Text("Click me"),
-              ),
-              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(32),
+                  child: Column(
+                    children:<Widget> [
+                      Text("Hey guys "),
+                      SizedBox(
+                        height: 200,
+                      ),
+                      Text("This is second line"),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
