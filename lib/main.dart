@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -15,39 +13,64 @@ class MyApp extends StatefulWidget {
 }
 class _MyAppState extends State<MyApp> {
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return new Scaffold(
       appBar: new AppBar(
         title:new Text("Name here"),
         backgroundColor: Colors.red,
       ),
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            children:<Widget> [
-              Card(
-                child: Container(
-                  padding: EdgeInsets.all(32),
-                  child: Column(
-                    children:<Widget> [
-                      Text("Hey guys "),
-                      SizedBox(
-                        height: 200,
-                      ),
-                      Text("This is second line"),
-                    ],
-                  ),
-                ),
-              )
-            ],
+      body:ListView(
+        // This next line does the trick.
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Container(
+            height: 160.0,
+            color: Colors.red,
           ),
-        ),
+          Container(
+            height: 160.0,
+            color: Colors.blue,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.green,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.yellow,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.orange,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.red,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.blue,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.green,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.yellow,
+          ),
+          Container(
+            height: 160.0,
+            color: Colors.orange,
+          ),
+        ],
       )
-
     );
   }
-
-
 }
