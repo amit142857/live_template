@@ -1,76 +1,36 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
+  runApp(MyApp(
+    items: List<String>.generate(10000, (i) => "Item $i"),
   ));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
+  final List<String> items;
 
-
+  MyApp({Key key, @required this.items}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final title = 'Long List';
 
-
-
-    return new Scaffold(
-      appBar: new AppBar(
-        title:new Text("Name here"),
-        backgroundColor: Colors.red,
+    return MaterialApp(
+      title: title,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text('${items[index]}'),
+            );
+          },
+        ),
       ),
-      body:ListView(
-        // This next line does the trick.
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Container(
-            height: 160.0,
-            color: Colors.red,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.blue,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.green,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.yellow,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.orange,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.red,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.blue,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.green,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.yellow,
-          ),
-          Container(
-            height: 160.0,
-            color: Colors.orange,
-          ),
-        ],
-      )
     );
   }
 }
