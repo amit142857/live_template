@@ -1,37 +1,46 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp(
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: MyApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
-  final items = List<String>.generate(10000, (i) => "Item $i");
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _value = "Nothing yet";
+
+  void _onPressed() => setState(() => _value = DateTime.now().toString());
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Long List';
-
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, index) {
-            return ListTile(
-              title: Text('${items[index]}'),
-              leading: CircleAvatar(
-                backgroundImage: AssetImage("Images/amit.jpg"),
-              ),
-              trailing: Text("${index} item"),
-            );
-          },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Name Here"),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(32),
+        child: Center(
+          child: Column(
+            children:<Widget> [
+              Text(_value),
+              IconButton(
+                icon: Icon(Icons.access_time),
+                onPressed: _onPressed,
+                color: Colors.blue,
+                iconSize: 50,
+                tooltip: "Show date and time",
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
