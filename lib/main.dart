@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,14 +12,39 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-
+enum Animals{Cat, Dog, Cow, Lizard}
 class _MyAppState extends State<MyApp> {
-  double _value = 0;
 
-  void _onChanged(double value) {
-    setState(() => _value = value);
+  Animals _selected = Animals.Cat;
+  String _value = "Make a selection";
+  List<PopupMenuEntry<Animals>> _items = new List<PopupMenuEntry<Animals>>();
+
+
+
+  @override
+  void initState() {
+    for(Animals animal in Animals.values){
+      _items.add(PopupMenuItem(
+        child: Text(_getDisplay(animal),),
+        value: animal,
+        ),
+      );
+    }
+
   }
 
+  void _onSelected(Animals animal){
+    setState(() {
+      _selected = animal;
+      _value = "You selected ${_getDisplay(animal)}";
+    });
+  }
+
+  String _getDisplay(Animals animal){
+    int index = animal.toString().indexOf(".");
+    index++;
+    return animal.toString().substring(index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +56,19 @@ class _MyAppState extends State<MyApp> {
       body: Container(
         padding: EdgeInsets.all(32),
         child: Center(
-          child: Column(
+          child: Row(
             children:<Widget> [
-              Text("Let us know your age"),
-              Text("${_value*100} %"),
-              Slider(
-                value: _value,
-                onChanged: _onChanged,
-                label: "Age",
-                divisions: 50,
-              ),
               Container(
-                padding: EdgeInsets.all(32),
-                child: LinearProgressIndicator(
-                  value: _value,
-                  backgroundColor: Colors.red,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                )
+                padding: EdgeInsets.all(5),
+                child: Text(_value),
               ),
-              Container(
-                padding: EdgeInsets.all(32),
-                child: CircularProgressIndicator(
-                  value: _value,
-                  backgroundColor: Colors.white,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                ),
+              PopupMenuButton<Animals>(
+                child: Icon(Icons.arrow_drop_down),
+                initialValue: Animals.Cat,
+                onSelected: _onSelected,
+                itemBuilder: (BuildContext context){
+                  return _items;
+                },
               )
             ],
           ),
