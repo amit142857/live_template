@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,39 +11,47 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-enum Animals{Cat, Dog, Cow, Lizard}
+
+class MyItem{
+  bool IsExpanded;
+  final String header;
+  final Widget body;
+
+  MyItem(this.IsExpanded , this.header, this.body);
+}
+
 class _MyAppState extends State<MyApp> {
 
-  Animals _selected = Animals.Cat;
-  String _value = "Make a selection";
-  List<PopupMenuEntry<Animals>> _items = new List<PopupMenuEntry<Animals>>();
-
+  List<MyItem> _items = new List<MyItem>();
 
 
   @override
   void initState() {
-    for(Animals animal in Animals.values){
-      _items.add(PopupMenuItem(
-        child: Text(_getDisplay(animal),),
-        value: animal,
-        ),
-      );
+    for (int i = 1; i < 20; i++){
+      _items.add(MyItem(
+          false,
+          "Press ${i}",
+          Container(  //this is seen in the expanded widget
+            padding: EdgeInsets.all(5),
+            child: Text("This is expanded text")
+          )
+      ));
     }
-
   }
 
-  void _onSelected(Animals animal){
-    setState(() {
-      _selected = animal;
-      _value = "You selected ${_getDisplay(animal)}";
-    });
+  ExpansionPanel _createitem(MyItem item){
+    return ExpansionPanel(
+      headerBuilder: (BuildContext context, bool IsExpanded){
+        return Container(
+          padding: EdgeInsets.all(10),
+          child: Text("Please ${item.header}"),
+        );
+      },
+      body: item.body,
+      isExpanded: item.IsExpanded
+    );
   }
 
-  String _getDisplay(Animals animal){
-    int index = animal.toString().indexOf(".");
-    index++;
-    return animal.toString().substring(index);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,24 +62,18 @@ class _MyAppState extends State<MyApp> {
 
       body: Container(
         padding: EdgeInsets.all(32),
-        child: Center(
-          child: Row(
-            children:<Widget> [
-              Container(
-                padding: EdgeInsets.all(5),
-                child: Text(_value),
-              ),
-              PopupMenuButton<Animals>(
-                child: Icon(Icons.arrow_drop_down),
-                initialValue: Animals.Cat,
-                onSelected: _onSelected,
-                itemBuilder: (BuildContext context){
-                  return _items;
-                },
-              )
-            ],
-          ),
-        ),
+        child: ListView(
+          children:<Widget> [
+            ExpansionPanelList(
+              expansionCallback: (int index, bool IsExpanded){
+                setState(() {
+                  _items[index].IsExpanded =! _items[index].IsExpanded;
+                });
+              },
+              children: _items.map(_createitem).toList(),
+            )
+          ],
+        )
       ),
     );
   }
