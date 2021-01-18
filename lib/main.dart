@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,72 +14,75 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class MyItem{
-  bool IsExpanded;
-  final String header;
-  final Widget body;
+class Choice{
+  final String Title;
+  final IconData Icon;
 
-  MyItem(this.IsExpanded , this.header, this.body);
+  const Choice({this.Title, this.Icon});
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
 
-  List<MyItem> _items = new List<MyItem>();
+  TabController _controller;
+  List<Choice> _items = const <Choice>[
+    const Choice(Title: "Car", Icon: Icons.directions_car),
+    const Choice(Title: "Bicycle", Icon: Icons.directions_bike),
+    const Choice(Title: "Boat", Icon: Icons.directions_boat),
+    const Choice(Title: "Bus", Icon: Icons.directions_bus),
+    const Choice(Title: "Train", Icon: Icons.directions_train),
+    const Choice(Title: "Walk", Icon: Icons.directions_walk),
 
-
+  ];
   @override
   void initState() {
-    for (int i = 1; i < 20; i++){
-      _items.add(MyItem(
-          false,
-          "Press ${i}",
-          Container(  //this is seen in the expanded widget
-            padding: EdgeInsets.all(5),
-            child: Text("This is expanded text")
-          )
-      ));
-    }
-  }
-
-  ExpansionPanel _createitem(MyItem item){
-    return ExpansionPanel(
-      headerBuilder: (BuildContext context, bool IsExpanded){
-        return Container(
-          padding: EdgeInsets.all(10),
-          child: Text("Please ${item.header}"),
-        );
-      },
-      body: item.body,
-      isExpanded: item.IsExpanded
+    _controller = TabController(
+      length: _items.length,
+      vsync: this,
     );
   }
 
 
   @override
+
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Name Here"),
-      ),
-
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: ListView(
-          children:<Widget> [
-            ExpansionPanelList(
-              expansionCallback: (int index, bool IsExpanded){
-                setState(() {
-                  _items[index].IsExpanded =! _items[index].IsExpanded;
-                });
-              },
-              children: _items.map(_createitem).toList(),
+        title: Text("Narendra Memorial English School"),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(48),
+          child: Theme(
+            data: Theme.of(context).copyWith(accentColor: Colors.white),
+            child: Container(
+              height: 48,
+              alignment: Alignment.center,
+              child: TabPageSelector(
+                controller: _controller,
+              )
             )
-          ],
+          )
         )
       ),
+      body: TabBarView(
+        controller: _controller,
+        children: _items.map((Choice item){
+          return Container(
+            padding: EdgeInsets.all(25),
+            child: Center(
+              child: Column(
+                children:<Widget> [
+                  new Text(item.Title),
+                  new Icon(item.Icon, size: 120.0,)
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+      )
     );
   }
 
 
 }
-
