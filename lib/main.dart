@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,75 +12,129 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class Choice{
-  final String Title;
-  final IconData Icon;
+class _MyAppState extends State<MyApp> {
+  List<Step> _steps;
+  int _current;
 
-  const Choice({this.Title, this.Icon});
-}
 
-class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
-
-  TabController _controller;
-  List<Choice> _items = const <Choice>[
-    const Choice(Title: "Car", Icon: Icons.directions_car),
-    const Choice(Title: "Bicycle", Icon: Icons.directions_bike),
-    const Choice(Title: "Boat", Icon: Icons.directions_boat),
-    const Choice(Title: "Bus", Icon: Icons.directions_bus),
-    const Choice(Title: "Train", Icon: Icons.directions_train),
-    const Choice(Title: "Walk", Icon: Icons.directions_walk),
-
-  ];
   @override
   void initState() {
-    _controller = TabController(
-      length: _items.length,
-      vsync: this,
-    );
+    _current = 0;
+
+    _steps = <Step>[
+      Step(
+        title:Text("Step 1") ,
+        content: Column(
+          children:<Widget> [
+            Text("Computer teacher"),
+            Image.asset("Images/amit.jpg"),
+          ],
+        ),
+        isActive: true
+      ),
+      Step(
+          title:Text("Step 2") ,
+          content:Column(
+            children: <Widget> [
+              Text("Batch of 2074"),
+              Image.asset("Images/scl1.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+      Step(
+          title:Text("Step 3") ,
+          content:Column(
+            children: <Widget> [
+              Text("Dipesh and Ishwor"),
+              Image.asset("Images/scl2.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+      Step(
+          title:Text("Step 4") ,
+          content:Column(
+            children: <Widget> [
+              Text("NMESS Sports team"),
+              Image.asset("Images/scl3.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+      Step(
+          title:Text("Step 5") ,
+          content:Column(
+            children: <Widget> [
+              Text("NMESS Soccer Team"),
+              Image.asset("Images/scl4.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+      Step(
+          title:Text("Step 6") ,
+          content:Column(
+            children: <Widget> [
+              Text("NMESS Dance Team"),
+              Image.asset("Images/scl5.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+      Step(
+          title:Text("Step 7") ,
+          content:Column(
+            children: <Widget> [
+              Text("Prize distribution with Principal"),
+              Image.asset("Images/scl6.jpg")
+            ],
+          ),
+          isActive: true
+      ),
+
+    ];
   }
 
+  void _stepContinue() {
+    setState(() {
+      _current++;
+      if (_current >= _steps.length) _current = _steps.length - 1;
+    });
+  }
+
+  void _stepCancel() {
+    setState(() {
+      _current++;
+      if (_current > 0) _current = 0;
+    });
+  }
+
+  void _stepTap(int index){
+    setState(() {
+      _current = index;
+    });
+  }
 
   @override
-
-
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Narendra Memorial English School"),
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48),
-          child: Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: Container(
-              height: 48,
-              alignment: Alignment.center,
-              child: TabPageSelector(
-                controller: _controller,
-              )
-            )
-          )
-        )
+        title: Text("Name Here"),
       ),
-      body: TabBarView(
-        controller: _controller,
-        children: _items.map((Choice item){
-          return Container(
-            padding: EdgeInsets.all(25),
-            child: Center(
-              child: Column(
-                children:<Widget> [
-                  new Text(item.Title),
-                  new Icon(item.Icon, size: 120.0,)
-                ],
-              ),
+      body: Container(
+          padding: EdgeInsets.all(10),
+          child: Center(
+            child: Stepper(
+              steps: _steps,
+              type: StepperType.vertical,
+              currentStep: _current,
+              onStepCancel: _stepCancel,
+              onStepContinue: _stepContinue,
+              onStepTapped: _stepTap,
             ),
-          );
-        }).toList(),
-      )
+          )
+      ),
     );
   }
-
-
 }
