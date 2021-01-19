@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(MaterialApp(
@@ -12,108 +14,55 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+  class Area {
+  int index;
+  Color color;
+  String name;
+
+  Area({this.index: -1, this.color: Colors.blue, this.name: "Area"});
+}
+
 class _MyAppState extends State<MyApp> {
-  List<Step> _steps;
-  int _current;
+
+  int _location;
+  List<Area> _areas;
 
 
   @override
   void initState() {
-    _current = 0;
+    _areas = List<Area>();
+    for (int i = 0; i < 16; i++){
+      _areas.add(Area(
+        index: i,
+        name: "Area ${i}",
+      ));
+    }
+    var rng = Random();
+    _location = rng.nextInt(_areas.length);
+  }
 
-    _steps = <Step>[
-      Step(
-        title:Text("Step 1") ,
-        content: Column(
-          children:<Widget> [
-            Text("Computer teacher"),
-            Image.asset("Images/amit.jpg"),
-          ],
+  Widget _generate(int index) {
+    return GridTile(
+      child: Container(
+        padding: EdgeInsets.all(5),
+        child: RaisedButton(
+          onPressed:() => _onPressed(index),
+          color: _areas[index].color,
+          child: Text(_areas[index].name, textAlign: TextAlign.center,),
         ),
-        isActive: true
       ),
-      Step(
-          title:Text("Step 2") ,
-          content:Column(
-            children: <Widget> [
-              Text("Batch of 2074"),
-              Image.asset("Images/scl1.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-      Step(
-          title:Text("Step 3") ,
-          content:Column(
-            children: <Widget> [
-              Text("Dipesh and Ishwor"),
-              Image.asset("Images/scl2.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-      Step(
-          title:Text("Step 4") ,
-          content:Column(
-            children: <Widget> [
-              Text("NMESS Sports team"),
-              Image.asset("Images/scl3.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-      Step(
-          title:Text("Step 5") ,
-          content:Column(
-            children: <Widget> [
-              Text("NMESS Soccer Team"),
-              Image.asset("Images/scl4.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-      Step(
-          title:Text("Step 6") ,
-          content:Column(
-            children: <Widget> [
-              Text("NMESS Dance Team"),
-              Image.asset("Images/scl5.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-      Step(
-          title:Text("Step 7") ,
-          content:Column(
-            children: <Widget> [
-              Text("Prize distribution with Principal"),
-              Image.asset("Images/scl6.jpg")
-            ],
-          ),
-          isActive: true
-      ),
-
-    ];
+    );
   }
 
-  void _stepContinue() {
+  void _onPressed(int index) {
     setState(() {
-      _current++;
-      if (_current >= _steps.length) _current = _steps.length - 1;
+      if (index == _location){
+        _areas[index].color = Colors.green;
+      } else {
+        _areas[index].color = Colors.red;
+      }
     });
-  }
-
-  void _stepCancel() {
-    setState(() {
-      _current++;
-      if (_current > 0) _current = 0;
-    });
-  }
-
-  void _stepTap(int index){
-    setState(() {
-      _current = index;
-    });
+    debugPrint("$_location");
   }
 
   @override
@@ -123,15 +72,12 @@ class _MyAppState extends State<MyApp> {
         title: Text("Name Here"),
       ),
       body: Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(32),
           child: Center(
-            child: Stepper(
-              steps: _steps,
-              type: StepperType.vertical,
-              currentStep: _current,
-              onStepCancel: _stepCancel,
-              onStepContinue: _stepContinue,
-              onStepTapped: _stepTap,
+            child: GridView.count(
+              crossAxisCount: 4,
+              children:
+                List<Widget>.generate(16, _generate)
             ),
           )
       ),
