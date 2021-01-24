@@ -22,29 +22,37 @@ class Sales {
 
 class _State extends State<MyApp> {
 
-  List<Sales> _data;
+  List<Sales> _laptops;
+  List<Sales> _desktops;
   List<charts.Series<Sales, String>> _chartdata;
 
   void _makeData() {
-    _data = new List<Sales>();
-    _chartdata = new List<charts.Series<Sales, String>>();
+    _laptops = List<Sales>();
+    _desktops = List<Sales>();
+    _chartdata = List<charts.Series<Sales, String>>();
 
-    final rnd = new Random();
-    for(int i = 2010; i < 2019; i++) {
-      _data.add(new Sales(i.toString(), rnd.nextInt(1000)));
+    final rnd = Random();
+    for (int i = 2016; i < 2020 ; i++){
+      _laptops.add(Sales(i.toString(), rnd.nextInt(1000)));
+      _desktops.add(Sales(i.toString(), rnd.nextInt(1000)));
     }
 
-    _chartdata.add(new charts.Series(
-        id: 'Sales',
-        colorFn: (Sales sales,__) => charts.MaterialPalette.red.shadeDefault,
-        data: _data,
-        domainFn: (Sales sales, _) => sales.year,
-        measureFn: (Sales sales, _) => sales.sales,
-        fillPatternFn: (Sales sales,__) => charts.FillPatternType.forwardHatch,
-        displayName: 'sales'
-    )
-    );
-
+    _chartdata.add(charts.Series(
+      id: "Sales",
+      data: _laptops,
+      domainFn: (Sales sales,__) => sales.year,
+      measureFn: (Sales sales, __) => sales.sales,
+      displayName: "Display name",
+      colorFn: (Sales sales, __) => charts.MaterialPalette.green.shadeDefault,
+    ));
+    _chartdata.add(charts.Series(
+      id: "Sales",
+      data: _desktops,
+      domainFn: (Sales sales,__) => sales.year,
+      measureFn: (Sales sales, __) => sales.sales,
+      displayName: "Display name",
+      colorFn: (Sales sales, __) => charts.MaterialPalette.red.shadeDefault,
+    ));
   }
 
 
@@ -65,7 +73,9 @@ class _State extends State<MyApp> {
             child: new Column(
               children: <Widget>[
                 new Text('Sales Data'),
-                new Expanded(child: new charts.BarChart(_chartdata))
+                new Expanded(
+                    child: new charts.BarChart(_chartdata)
+                )
               ],
             ),
           )
