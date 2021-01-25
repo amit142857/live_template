@@ -2,57 +2,48 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-
 void main() {
   runApp(new MaterialApp(
-    home: new MyApp(),
+    debugShowCheckedModeBanner: false,
+    home:new MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
   @override
-  _State createState() => new _State();
+  _MyAppState createState() => new _MyAppState();
 }
 
-class Sales {
-  String year;
+class Sales{
+  int year;
   int sales;
-  Sales(this.year, this.sales);
+  charts.Color color;
+  Sales(this.year, this.sales, this.color);
 }
 
-class _State extends State<MyApp> {
+class _MyAppState extends State<MyApp> {
 
-  List<Sales> _laptops;
-  List<Sales> _desktops;
-  List<charts.Series<Sales, String>> _chartdata;
+  List<Sales> _data;
+  List<charts.Series<Sales, int>> _chartdata;
+
 
   void _makeData() {
-    _laptops = List<Sales>();
-    _desktops = List<Sales>();
-    _chartdata = List<charts.Series<Sales, String>>();
+    _chartdata = new List<charts.Series<Sales, int>>();
+    _data = <Sales>[
+      new Sales(0, 100, charts.MaterialPalette.red.shadeDefault),
+      new Sales(1, 300, charts.MaterialPalette.green.shadeDefault),
+      new Sales(2, 200, charts.MaterialPalette.pink.shadeDefault),
+      new Sales(3, 120, charts.MaterialPalette.gray.shadeDefault),
+    ];
 
-    final rnd = Random();
-    for (int i = 2016; i < 2020 ; i++){
-      _laptops.add(Sales(i.toString(), rnd.nextInt(1000)));
-      _desktops.add(Sales(i.toString(), rnd.nextInt(1000)));
-    }
+    _chartdata.add(new charts.Series(
+     id: "Sales",
+     data: _data,
+     colorFn: (Sales sales, __) => sales.color,
+      domainFn: (Sales sales, __) => sales.year,
+      measureFn: (Sales sales, __) => sales.sales,
+    ));
 
-    _chartdata.add(charts.Series(
-      id: "Sales",
-      data: _laptops,
-      domainFn: (Sales sales,__) => sales.year,
-      measureFn: (Sales sales, __) => sales.sales,
-      displayName: "Display name",
-      colorFn: (Sales sales, __) => charts.MaterialPalette.green.shadeDefault,
-    ));
-    _chartdata.add(charts.Series(
-      id: "Sales",
-      data: _desktops,
-      domainFn: (Sales sales,__) => sales.year,
-      measureFn: (Sales sales, __) => sales.sales,
-      displayName: "Display name",
-      colorFn: (Sales sales, __) => charts.MaterialPalette.red.shadeDefault,
-    ));
   }
 
 
@@ -65,20 +56,24 @@ class _State extends State<MyApp> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Name here'),
+        title:new Text("Name Here"),
       ),
-      body: new Container(
-          padding: new EdgeInsets.all(32.0),
-          child: new Center(
-            child: new Column(
-              children: <Widget>[
-                new Text('Sales Data'),
-                new Expanded(
-                    child: new charts.BarChart(_chartdata)
-                )
-              ],
-            ),
-          )
+      body:new Container(
+          padding:new EdgeInsets.all(5),
+        child: Center(
+          child: Column(
+            children:<Widget> [
+              Text("Sales Data"),
+              Expanded(
+                child: charts.PieChart<dynamic>(
+                  _chartdata,
+                  animate: true,
+                  animationDuration: Duration(seconds: 5),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
