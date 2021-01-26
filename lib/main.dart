@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import 'Customwidget.dart';
+
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
-    home:new MyApp(),
+    home:new Custom(),
   ));
 }
 
