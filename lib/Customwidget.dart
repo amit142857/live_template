@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 class Custom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("This is title"),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Text(
-          "Hello world",
-          style: TextStyle(
-            fontSize: 40,
-          ),
-          textAlign: TextAlign.center
-        ),
-      )
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children:<Widget> [
+        Image.asset("Images/amit.jpg"),
+        SizedBox(height: 20),
+        Image.asset("Images/scl2.jpg"),
+        SizedBox(height: 20),
+        Image.asset("Images/scl3.jpg"),
+        SizedBox(height: 20),
+        Image.asset("Images/scl4.jpg"),
+        SizedBox(height: 20),
+        Image.asset("Images/scl5.jpg"),
+        SizedBox(height: 20),
+        Image.asset("Images/scl6.jpg"),
+      ],
     );
   }
 }
