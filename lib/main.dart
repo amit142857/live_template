@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:live_template/Customwidget.dart';
 import 'Timecounter.dart';
+import 'authenticator.dart';
 import 'clock.dart';
 
 void main() {
@@ -16,11 +17,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  bool _isAuthenticated;
+  void _OnAuthenticated(bool value){
+    setState(() {
+      _isAuthenticated = value;
+    });
+  }
+
+
+  @override
+  void initState() {
+    _isAuthenticated = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Name Here"),
+        title: Text("Authencticator"),
+        centerTitle: true,
       ),
       body: Container(
           padding: EdgeInsets.all(32),
@@ -28,7 +44,8 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Custom()
+                  Authenticator(OnAuthenticated: _OnAuthenticated),
+                  Text("Authenticated: ${_isAuthenticated}")
                 ],
               )
             ],
