@@ -17,7 +17,7 @@ class _TimeCounterState extends State<TimeCounter> {
   void _onStart() {
     setState(() {
       _watch = Stopwatch();
-      _timer = Timer.periodic(Duration(milliseconds: 250), _onTimeout );
+      _timer = Timer.periodic(Duration(milliseconds: 100), _onTimeout );
     });
     _watch.start();
   }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:live_template/Tabbar%20view.dart';
+import 'package:live_template/Timedisplay.dart';
+import 'package:live_template/clock.dart';
 
 class Custom extends StatelessWidget {
   @override
@@ -6,9 +9,13 @@ class Custom extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children:<Widget> [
-        Image.asset("Images/amit.jpg"),
+        InkWell(child: Image.asset("Images/amit.jpg"),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Clock()))
+        ),
         SizedBox(height: 20),
-        Image.asset("Images/scl2.jpg"),
+        InkWell(child: Image.asset("Images/scl2.jpg"),
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Tabbar()))
+        ),
         SizedBox(height: 20),
         Image.asset("Images/scl3.jpg"),
         SizedBox(height: 20),
