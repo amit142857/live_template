@@ -43,6 +43,8 @@ class _AuthenticatorState extends State<Authenticator> {
     _pass = TextEditingController();
   }
 
+  final focus = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -60,6 +62,7 @@ class _AuthenticatorState extends State<Authenticator> {
                   child: Icon(Icons.person),
                 )
             ),
+            onSubmitted: (v){FocusScope.of(context).requestFocus(focus);},
           ),
           TextField(
             controller: _pass,
@@ -74,6 +77,7 @@ class _AuthenticatorState extends State<Authenticator> {
               ),
             ),
             obscureText: _obscureText,
+            focusNode: focus,
           ),
 
           Padding(padding: EdgeInsets.all(10),
