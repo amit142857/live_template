@@ -1,55 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:live_template/Customwidget.dart';
-import 'Timecounter.dart';
-import 'authenticator.dart';
-import 'clock.dart';
+import 'package:live_template/Screens/home.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
-  ));
-}
+import 'Screens/Third.dart';
+import 'Screens/second.dart';
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+void main() => runApp(MyApp());
 
-class _MyAppState extends State<MyApp> {
-
-  bool _isAuthenticated;
-  void _OnAuthenticated(bool value){
-    setState(() {
-      _isAuthenticated = value;
-    });
-  }
-
-
-  @override
-  void initState() {
-    _isAuthenticated = false;
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Authencticator"),
-        centerTitle: true,
-      ),
-      body: Container(
-          padding: EdgeInsets.all(32),
-          child: ListView(
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Authenticator(OnAuthenticated: _OnAuthenticated),
-                  Text("Authenticated: ${_isAuthenticated}")
-                ],
-              )
-            ],
-          )),
+    return MaterialApp(
+      title: "Navigator",
+      routes: <String, WidgetBuilder>{
+        //list of all available pages
+        "/Home" : (BuildContext context) => Home(),
+        "/Second" : (BuildContext context) => Second(),
+        "/Third" : (BuildContext context) => Third(),
+
+      },
+      home: Home(),  //first page displayed
     );
   }
 }
+
+
+
