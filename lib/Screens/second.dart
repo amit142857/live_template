@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:live_template/Screens/Third.dart';
 
 import 'home.dart';
+import 'mywidget.dart';
 
 class Second extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ class _SecondState extends State<Second> {
                   child: Text("Next")),
               RaisedButton(onPressed: () => Navigator.of(context).pop(),
                   child: Text("Back")),
+              MyWidget(),
             ],
           ),
         ),

@@ -26,12 +26,12 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 100,
               ),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil('/Home', (Route<dynamic> route) => false),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Home"),
                   child: Icon(Icons.autorenew)
               ),
               RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Second"),
                   child: Text("Goto page 2")),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil("/Third" , (Route<dynamic> route) => false),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Third"),
                   child: Text("Goto page 3")),
             ],
           ),
