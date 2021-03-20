@@ -19,8 +19,20 @@ class _HomeState extends State<Home> {
           child: Column(
             children:<Widget> [
               Text("Welcome to the Home"),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Second"),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil('/Second', (Route<dynamic> route) => true),
+                  //if the boolean value is made false it hides all the routes and vice versa
+                  //pushnamedandremoveuntil is used to hide the route
                   child: Text("Next")),
+              SizedBox(
+                height: 100,
+              ),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil('/Home', (Route<dynamic> route) => false),
+                  child: Icon(Icons.autorenew)
+              ),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Second"),
+                  child: Text("Goto page 2")),
+              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil("/Third" , (Route<dynamic> route) => false),
+                  child: Text("Goto page 3")),
             ],
           ),
         ),

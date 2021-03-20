@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:live_template/Screens/home.dart';
 
 import 'Screens/Third.dart';
@@ -10,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Navigator",
       routes: <String, WidgetBuilder>{
         //list of all available pages
