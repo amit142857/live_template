@@ -1,35 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:live_template/Screens/Third.dart';
-
-import 'home.dart';
-import 'mywidget.dart';
+import '../code/GlobalState.dart';
 
 class Second extends StatefulWidget {
   @override
-  _SecondState createState() => _SecondState();
+  _SecondState createState() => new _SecondState();
 }
 
 class _SecondState extends State<Second> {
+
+  GlobalState _store = GlobalState.instance;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Second page"),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Name here'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            children:<Widget> [
-              Text("Welcome to second page"),
-              RaisedButton(onPressed: () => Navigator.of(context).pushNamed("/Third"),
-                  child: Text("Next")),
-              RaisedButton(onPressed: () => Navigator.of(context).pop(),
-                  child: Text("Back")),
-              MyWidget(),
-            ],
-          ),
-        ),
+      body: new Container(
+          padding: new EdgeInsets.all(32.0),
+          child: new Center(
+            child: new Column(
+              children: <Widget>[
+                new Text('Hello ${_store.get('name')}'),
+
+                new RaisedButton(onPressed: (){Navigator.of(context).pop();}, child: new Text('Back'),)
+              ],
+            ),
+          )
       ),
     );
   }

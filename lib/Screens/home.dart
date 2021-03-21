@@ -1,41 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:live_template/Screens/second.dart';
+import '../code/GlobalState.dart';
 
 class Home extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomeState createState() => new _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
+  TextEditingController _name;
+  GlobalState _store = GlobalState.instance;
+
+
+  @override
+  void initState() {
+    _name = new TextEditingController();
+    _store.set('name', '');
+    _name.text = _store.get('name');
+  }
+
+  void _onPressed() {
+    setState((){
+      _store.set('name', _name.text);
+    });
+    Navigator.of(context).pushNamed('/Second');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Name here'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            children:<Widget> [
-              Text("Welcome to the Home"),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamedAndRemoveUntil('/Second', (Route<dynamic> route) => true),
-                  //if the boolean value is made false it hides all the routes and vice versa
-                  //pushnamedandremoveuntil is used to hide the route
-                  child: Text("Next")),
-              SizedBox(
-                height: 100,
-              ),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Home"),
-                  child: Icon(Icons.autorenew)
-              ),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Second"),
-                  child: Text("Goto page 2")),
-              RaisedButton(onPressed:() => Navigator.of(context).pushNamed("/Third"),
-                  child: Text("Goto page 3")),
-            ],
-          ),
-        ),
+      body: new Container(
+          padding: new EdgeInsets.all(32.0),
+          child: new Center(
+            child: new Column(
+              children: <Widget>[
+                new TextField(
+                  controller: _name,
+                  decoration: new InputDecoration(labelText: 'Enter your name'),
+                ),
+                new RaisedButton(onPressed: _onPressed, child: new Text('Next'),)
+              ],
+            ),
+          )
       ),
     );
   }
