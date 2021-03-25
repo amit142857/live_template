@@ -1,46 +1,240 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'Screens/counterprovider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CounterProvider>(
-      create: (context) => CounterProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "State Management",
-        home: CounterApp(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Grid View",
+      home: GridViewApp(),
     );
   }
 }
-
-class CounterApp extends StatelessWidget {
+class GridViewApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("State Management"),
+        title: Text("Grid View"),
         centerTitle: true,
       ),
-      body: Center(
-        child: Consumer<CounterProvider>(
-          builder: (context , counter , child){
-            return Text("You pressed the button ${counter.getCount} times." , style: TextStyle( fontSize: 20),
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: <Widget> [
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blueGrey,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_balance , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Rs. 14,56,000" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
+          Card(
+            color: Colors.blue,
+            child: Stack(
+              children:<Widget> [
+                Center(
+                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 170 , left: 100),
+                  child: Text(
+                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
+                )
+              ],
+            ),
+          ),
 
-            );
-          }
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Provider.of<CounterProvider>(context , listen: false).incrementCount();
-        },
-        child: Icon(Icons.add),
+        ],
       ),
     );
   }
