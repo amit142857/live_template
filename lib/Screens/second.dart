@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../code/GlobalState.dart';
 
 class Second extends StatefulWidget {
+
   @override
   _SecondState createState() => new _SecondState();
 }
@@ -22,7 +23,6 @@ class _SecondState extends State<Second> {
             child: new Column(
               children: <Widget>[
                 new Text('Hello ${_store.get('name')}'),
-
                 new RaisedButton(onPressed: (){Navigator.of(context).pop();}, child: new Text('Back'),)
               ],
             ),
