@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:live_template/Screens/second.dart';
 import '../code/GlobalState.dart';
 
 class Home extends StatefulWidget {
@@ -23,7 +24,7 @@ class _HomeState extends State<Home> {
     setState((){
       _store.set('name', _name.text);
     });
-    Navigator.of(context).pushNamed('/Second');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Second()),);
   }
 
   @override

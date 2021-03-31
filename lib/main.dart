@@ -1,241 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+//Redux
 
+// https://pub.dartlang.org/packages/redux
+// https://pub.dartlang.org/packages/flutter_redux
 
-void main() => runApp(MyApp());
+// MUST USE DART 2!!!!
+// Add additional params
+// --preview-dart-2
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Grid View",
-      home: GridViewApp(),
-    );
-  }
+//Actions for redux, these are the things we do
+enum Actions { Increment, Decrement }
+
+//The reducer will take the action and create a new state
+int reducer(int state, dynamic action) {
+  if (action == Actions.Increment) state++;
+  if (action == Actions.Decrement) state--;
+
+  return state;
 }
-class GridViewApp extends StatelessWidget {
+
+
+void main() {
+  final store = new Store<int>(reducer, initialState: 0);
+
+  runApp(new MyApp(
+    store: store,
+  ));
+
+}
+
+//Stateless because redux is handling the state, but we can mix them
+class MyApp extends StatelessWidget {
+  MyApp({Key key, this.store}) : super(key: key);
+  final Store<int> store;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Grid View"),
-        centerTitle: true,
-      ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        children: <Widget> [
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blueGrey,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_balance , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Rs. 14,56,000" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.blue,
-            child: Stack(
-              children:<Widget> [
-                Center(
-                  child: Icon(Icons.account_circle , size: 150, color: Colors.white),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 170 , left: 100),
-                  child: Text(
-                      "Account Circle" , style: TextStyle(fontSize: 14 , color: Colors.white)),
-                )
-              ],
-            ),
-          ),
+    print("Tapped");
 
-        ],
-      ),
+    return new StoreProvider<int>(
+        store: store,
+        child: new MaterialApp(
+          title: 'Flutter Redux',
+          home: new Scaffold(
+            appBar: new AppBar(
+              title: new Text('Redux App'),
+            ),
+            body: new Container(
+                padding: new EdgeInsets.all(32.0),
+                child: new Center(
+                  child: new Column(
+                    children: <Widget>[
+
+                      //Make a connector to get the updates when the store changes
+                      new StoreConnector<int, String>(
+                        converter: (store) => store.state.toString(),
+                        builder: (context, count) {
+                          return new Text(
+                              count,
+                              style: new TextStyle(fontSize: 24.0)
+                          );
+                        },
+
+                      ),
+
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new IconButton(icon: new Icon(Icons.add), onPressed: ()=> store.dispatch(Actions.Increment)),
+                          new IconButton(icon: new Icon(Icons.remove), onPressed: ()=> store.dispatch(Actions.Decrement)),
+                        ],
+                      ),
+
+
+                    ],
+                  ),
+                )
+            ),
+          ),
+        )
     );
   }
 }
