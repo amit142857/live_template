@@ -9,23 +9,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _turns;
-  double _value;
-
-
-  @override
-  void initState() {
-    _turns = 0;
-    _value = 0.0;
-  }
-
-  void _onChanged(double value) {
-    setState(() {
-      _value = value;
-      _turns = value.toInt();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,15 +20,18 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Column(
             children:<Widget> [
-              Slider(
-                value: _value,
-                onChanged: _onChanged,
-                min: 0.0,
-                max: 80.0,
-              ),
-              RotatedBox(
-                quarterTurns: _turns,
-                child: Text("Hello world")
+              Container(
+                  width: 200,
+                  height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage('Images/amit.jpg'),
+                    fit: BoxFit.fill,
+                  ),
+                  border: Border.all(color: Colors.greenAccent , width: 5.0),
+                  gradient: RadialGradient(colors: <Color>[Colors.greenAccent , Colors.green])
+                )
               )
             ],
           ),
