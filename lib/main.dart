@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 void main(){
   runApp(MaterialApp(home: Home()));
 }
@@ -11,17 +9,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _visible;
+  int _turns;
+  double _value;
 
 
   @override
   void initState() {
-    _visible = true;
+    _turns = 0;
+    _value = 0.0;
   }
 
-  void _toggleVisible() {
+  void _onChanged(double value) {
     setState(() {
-      _visible = !_visible;
+      _value = value;
+      _turns = value.toInt();
     });
   }
 
@@ -36,13 +37,15 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Column(
             children:<Widget> [
-              Opacity(
-                opacity: _visible ? 1.0 : 0.03,
-                child: Text("Hey buddy"),
+              Slider(
+                value: _value,
+                onChanged: _onChanged,
+                min: 0.0,
+                max: 80.0,
               ),
-              RaisedButton(
-                onPressed: _toggleVisible,
-                child: Text("Toggle"),
+              RotatedBox(
+                quarterTurns: _turns,
+                child: Text("Hello world")
               )
             ],
           ),
