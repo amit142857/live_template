@@ -9,6 +9,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  double _x;
+  double _y;
+  double _z;
+
+
+
+  @override
+  void initState() {
+    _x = 0.0;
+    _y = 0.0;
+    _z = 0.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,17 +34,40 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Column(
             children:<Widget> [
-              Container(
-                  width: 200,
-                  height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage('Images/amit.jpg'),
-                    fit: BoxFit.fill,
+              Row(
+                children:<Widget> [
+                  Text("X"),
+                  Slider(
+                    value: _x,
+                    onChanged: (double value) => setState(() => _x = value))
+                ],
+              ),
+              Row(
+                children:<Widget> [
+                  Text("Y"),
+                  Slider(
+                      value: _y,
+                      onChanged: (double value) => setState(() => _y = value))
+                ],
+              ),
+              Row(
+                children:<Widget> [
+                  Text("Z"),
+                  Slider(
+                      value: _z,
+                      onChanged: (double value) => setState(() => _z = value))
+                ],
+              ),
+              Transform(
+                transform: Matrix4.skewY(_y),
+                child: Transform(
+                  transform: Matrix4.skewX(_x),
+                  child: Transform(
+                    transform: Matrix4.rotationZ(_z),
+                    child: Padding(padding: EdgeInsets.all(10),
+                    child: Text("Transformed Text"),
+                    ),
                   ),
-                  border: Border.all(color: Colors.greenAccent , width: 5.0),
-                  gradient: RadialGradient(colors: <Color>[Colors.greenAccent , Colors.green])
                 )
               )
             ],
