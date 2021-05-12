@@ -4,6 +4,7 @@ import 'package:latlong/latlong.dart';
 
 void main() {
   runApp(new MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: Home(),
   ));
 }
@@ -17,9 +18,37 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+
+    var markers = <Marker>[
+      Marker(
+        width: 80,
+        height: 80,
+        point: LatLng(28.4831 , 84.09436),
+        builder: (ctx) => Icon(Icons.location_pin, color: Colors.red,)
+      ),
+      Marker(
+          width: 80,
+          height: 80,
+          point: LatLng(28.4831 , 84.09436),
+          builder: (ctx) => Icon(Icons.location_pin, color: Colors.red,)
+      ),
+      Marker(
+          width: 80,
+          height: 80,
+          point: LatLng(28.4821 , 84.09736),
+          builder: (ctx) => Icon(Icons.location_pin, color: Colors.red,)
+      ),
+      Marker(
+          width: 80,
+          height: 80,
+          point: LatLng(28.4811 , 84.09236),
+          builder: (ctx) => Icon(Icons.location_pin, color: Colors.red,)
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home"),
+        title: Text("Demo_Map"),
       ),
       body: Container(
         padding: EdgeInsets.all(32),
@@ -29,13 +58,17 @@ class _HomeState extends State<Home> {
               Flexible(
                   child: FlutterMap(
                     options: MapOptions(
-                      center: LatLng(41.8781, -87.6298),
-                      zoom: 5.0
+                      center: LatLng(28.4831, 84.09436),
+                      zoom: 6.0
                     ),
                     layers: [
                       TileLayerOptions(
-                        urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                         subdomains: ['a' , 'b' , 'c']
+                      ),
+                      MarkerLayerOptions(
+                        markers: markers
                       )
                     ],
                   )
