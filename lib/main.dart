@@ -16,53 +16,36 @@ class Home extends StatefulWidget {
 }
   class _HomeState extends State<Home> {
 
-  MapController mapController;
-  Map<String , LatLng> coords;
-  List<Marker> markers;
+    List<LatLng> points;
+    MapController mapCOntroller;
+    List<Marker> markers;
 
-  @override
+
+    @override
   void initState() {
-    mapController = MapController();
-    
-    coords = Map<String, LatLng>();
-    coords.putIfAbsent("Pokhara", () => LatLng(28.1831 , 84.09436));
-    coords.putIfAbsent("Point 2", () => LatLng(28.8831 , 84.49436));
-    coords.putIfAbsent("Point 3", () => LatLng(29.4831 , 85.09436));
+    super.initState();
 
+    mapCOntroller = MapController();
+    // ignore: deprecated_member_use
+    points = List<LatLng>();
+
+    points.add( LatLng(28.1831 , 84.09436));
+    points.add( LatLng(28.8831 , 84.49436));
+    points.add( LatLng(29.4831 , 85.09436));
 
     // ignore: deprecated_member_use
     markers = List<Marker>();
 
-    for(int i = 0 ; i < coords.length; i++ ){
-      markers.add(
-        Marker(
-          width: 80,
-          height: 80,
-          point: coords.values.elementAt(i),
-          builder: (ctx) => Icon(Icons.pin_drop, color: Colors.red)
-        )
-      );
+    for(int i = 0; i < points.length; i++){
+      //this whole thing makes dynamic buttons
+    markers.add(Marker(
+      width: 80,
+      height: 80,
+      point: points.elementAt(i),
+      builder: (ctx) => Icon(Icons.add_location, color: Colors.red)
+    ));
     }
-  }
-
-  void _showCoord(int index){
-    mapController.move(coords.values.elementAt(index), 10.0);
-  }
-
-  List<Widget> _makeButtons() {
-    // ignore: deprecated_member_use
-    List<Widget> list = List<Widget>();
-    
-    for (int i=0; i<coords.length; i++){
-     // ignore: deprecated_member_use
-     list.add(RaisedButton(onPressed:() => _showCoord(i) , child: Text(coords.keys.elementAt(i)),));
     }
-    return list;
-  }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +59,9 @@ class Home extends StatefulWidget {
         child: Center(
           child: Column(
             children:<Widget> [
-              Row(
-                children: _makeButtons(),
-              ),
               Flexible(
                   child: FlutterMap(
-                    mapController: mapController,
+                    mapController: mapCOntroller,
                     options: MapOptions(
                       center: LatLng(28.4831, 84.09436),
                       zoom: 6.0
@@ -94,6 +74,15 @@ class Home extends StatefulWidget {
                       ),
                       MarkerLayerOptions(
                         markers: markers
+                      ),
+                      PolylineLayerOptions(
+                        polylines: [
+                          Polyline(
+                            points: points,
+                            strokeWidth: 4,
+                            color: Colors.green
+                          )
+                        ]
                       )
                     ],
                   )
