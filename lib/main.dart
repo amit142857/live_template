@@ -1,95 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
+import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
+
+
 
 void main() {
   runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Home(),
+    home: new MyApp(),
   ));
 }
 
-
-class Home extends StatefulWidget {
+class MyApp extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _State createState() => new _State();
 }
-  class _HomeState extends State<Home> {
 
-    List<LatLng> points;
-    MapController mapCOntroller;
-    List<Marker> markers;
+class _State extends State<MyApp> {
 
+  void _showUrl() {
+    _launch('http://www.facebook.com');
+  }
 
-    @override
-  void initState() {
-    super.initState();
+  void _showEmail() {
+    _launch('mailto:ydvamit82@gmail.com');
+  }
 
-    mapCOntroller = MapController();
-    // ignore: deprecated_member_use
-    points = List<LatLng>();
+  void _showTelephone() {
+    _launch('tel:981-599-9197');
+  }
 
-    points.add( LatLng(28.1831 , 84.09436));
-    points.add( LatLng(28.8831 , 84.49436));
-    points.add( LatLng(29.4831 , 85.09436));
+  void _showSms() {
+    _launch('sms:981-599-9197');
+  }
 
-    // ignore: deprecated_member_use
-    markers = List<Marker>();
-
-    for(int i = 0; i < points.length; i++){
-      //this whole thing makes dynamic buttons
-    markers.add(Marker(
-      width: 80,
-      height: 80,
-      point: points.elementAt(i),
-      builder: (ctx) => Icon(Icons.add_location, color: Colors.red)
-    ));
+  void _launch(String urlString) async {
+    if(await canLaunch(urlString)) {
+      await launch(urlString);
+    } else {
+      throw 'Could not launch Url';
     }
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Demo_Map"),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Name here'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(32),
-        child: Center(
-          child: Column(
-            children:<Widget> [
-              Flexible(
-                  child: FlutterMap(
-                    mapController: mapCOntroller,
-                    options: MapOptions(
-                      center: LatLng(28.4831, 84.09436),
-                      zoom: 6.0
-                    ),
-                    layers: [
-                      TileLayerOptions(
-                        urlTemplate:
-                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        subdomains: ['a' , 'b' , 'c'],
-                      ),
-                      MarkerLayerOptions(
-                        markers: markers
-                      ),
-                      PolylineLayerOptions(
-                        polylines: [
-                          Polyline(
-                            points: points,
-                            strokeWidth: 4,
-                            color: Colors.green
-                          )
-                        ]
-                      )
-                    ],
-                  )
-              )
-            ],
-          ),
-        ),
+      body: new Container(
+          padding: new EdgeInsets.all(32.0),
+          child: new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                new RaisedButton(onPressed: _showUrl, child: new Text('URL'),),
+                new RaisedButton(onPressed: _showEmail, child: new Text('Email'),),
+                new RaisedButton(onPressed: _showSms, child: new Text('Sms'),),
+                new RaisedButton(onPressed: _showTelephone, child: new Text('Telephone'),),
+
+              ],
+            ),
+          )
       ),
     );
   }
