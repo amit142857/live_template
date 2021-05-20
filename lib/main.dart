@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -18,21 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _State extends State<MyApp> {
 
-  void _showUrl() {
-    _launch('http://www.facebook.com');
-  }
-
-  void _showEmail() {
-    _launch('mailto:ydvamit82@gmail.com');
-  }
-
-  void _showTelephone() {
-    _launch('tel:981-599-9197');
-  }
-
-  void _showSms() {
-    _launch('sms:981-599-9197');
-  }
+  final style = ElevatedButton.styleFrom(primary: Colors.blue , onPrimary: Colors.white);
 
   void _launch(String urlString) async {
     if(await canLaunch(urlString)) {
@@ -48,6 +33,7 @@ class _State extends State<MyApp> {
       appBar: new AppBar(
         title: new Text('Name here'),
       ),
+      backgroundColor: Colors.grey,
       body: new Container(
           padding: new EdgeInsets.all(32.0),
           child: new Center(
@@ -64,8 +50,7 @@ class _State extends State<MyApp> {
                       image: AssetImage('Images/amit.jpg'),
                       fit: BoxFit.contain
                     ),
-                      border: Border.all(color: Colors.greenAccent , width: 5.0),
-                    gradient: RadialGradient(colors: <Color>[Colors.greenAccent , Colors.green])
+                      border: Border.all(color: Colors.blueAccent , width: 5.0)
                   ),
                 ),
                 Text("Amit Yadav" ,
@@ -93,59 +78,80 @@ class _State extends State<MyApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new RaisedButton(onPressed: _showTelephone, child: Icon(Icons.call),),
-                    new RaisedButton(onPressed: _showEmail, child: Icon(Icons.mail),),
-                    new RaisedButton(onPressed: _showSms, child: Icon(Icons.mark_chat_unread),),
+                    ElevatedButton( style: style, onPressed: () => _launch('tel:981-599-9197'), child: Icon(Icons.call)),
+                    ElevatedButton(style: style,onPressed: () => _launch('mailto:ydvamit82@gmail.com'), child: Icon(Icons.mail),),
+                    ElevatedButton(style: style,onPressed: () => _launch('sms:981-599-9197'), child: Icon(Icons.mark_chat_unread),),
                   ],
                 ),
                   SizedBox(
                     height: 20,
                   ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            image: DecorationImage(
-                                image: AssetImage('Images/laxmi.jpg'),
-                                fit: BoxFit.contain
-                            ),
-                            border: Border.all(color: Colors.greenAccent , width: 5.0),
-                            gradient: RadialGradient(colors: <Color>[Colors.greenAccent , Colors.green])
-                        ),
+                Column(
+                  children: [
+                    Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          image: DecorationImage(
+                              image: AssetImage('Images/laxmi.jpg'),
+                              fit: BoxFit.contain
+                          ),
+                          border: Border.all(color: Colors.blueAccent , width: 5.0)
                       ),
-                      Text("Laxmi Mahato" ,
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold
-                        ),
-                        textAlign: TextAlign.center,
+                    ),
+                    Text("Laxmi Mahato" ,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold
                       ),
-                      Text("Sr. Java Developer" ,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text("Sr. Java Developer" ,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
                       ),
-                      Text("Alex Alexa Software Solutions PVT. LTD" ,
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold
-                        ),
-                        textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text("Alex Alexa Software Solutions PVT. LTD" ,
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          new RaisedButton(onPressed:() => _launch('tel:981-797-3974'), child: Icon(Icons.call),),
-                          new RaisedButton(onPressed:() => _launch('mailto:laxmi.mahato.lm.9803@gmail.com') , child: Icon(Icons.mail),),
-                          new RaisedButton(onPressed:() => _launch('sms:981-797-3974'), child: Icon(Icons.mark_chat_unread),),
-                        ],
-                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new ElevatedButton(
+                          style: style,
+                          onPressed:() => _launch('tel:981-797-3974'), child: Icon(Icons.call),),
+                        new ElevatedButton(
+                          style: style,
+                          onPressed:() => _launch('mailto:laxmi.mahato.lm.9803@gmail.com') , child: Icon(Icons.mail),),
+                        new ElevatedButton(
+                          style: style,
+                          onPressed:() => _launch('sms:981-797-3974'), child: Icon(Icons.mark_chat_unread),),
+                      ],
+                    ),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/amit.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ListView(
+                  children: <Widget>[
+                    Text("Hello there")
+                  ],
+                ),
+              ),
+            ),
                     ],
                   ),
               ],
