@@ -4,74 +4,96 @@ import 'package:permission_handler/permission_handler.dart';
 void main() {
   runApp(MyApp());
 }
-class MyApp extends StatelessWidget {
+
+class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Flutter Demo",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: AppHome(),
+      title: "Test App",
+      home: HomePage(),
     );
   }
 }
 
-class AppHome extends StatefulWidget {
+class HomePage extends StatefulWidget{
   @override
-  _AppHomeState createState() => _AppHomeState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _AppHomeState extends State<AppHome> {
-
-  PermissionStatus _permissionstatus;
-
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(onLayoutDone);
-  }
-
-  void onLayoutDone(Duration timeStamp) async{
-    _permissionstatus = await Permission.camera.status;
-    setState(() {
-
-    });
-  }
-
-  void _askCameraPermission() async {
-    if(await Permission.camera.request().isGranted){
-      _permissionstatus = await Permission.camera.status;
-      setState(() {
-
-      });
-    }
-  }
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Permission testing'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children:<Widget> [
-            Text("$_permissionstatus" , style: Theme.of(context).textTheme.headline5),
-            ElevatedButton(
-                child: Text("Request Permission" , style: TextStyle(color: Colors.white , fontSize: 16),),
-                onPressed: () => _askCameraPermission(),
-            )
-          ],
+        appBar: AppBar(
+          title: Text("Request Permission"),
+          backgroundColor: Colors.redAccent,
         ),
-      ),
+        body: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Container(
+                child: ElevatedButton(
+                  child: Text("Request Single Permission"),
+                  onPressed: () async {
+                    if (await Permission.location.request().isGranted) {
+                      // Either the permission was already granted before or the user just granted it.
+                      print("Location Permission is granted");
+                    }else{
+                      print("Location Permission is denied.");
+                    }
+                  },
+                ),
+              ),
+
+              Container(
+                child: ElevatedButton(
+                  child: Text("Request Multiple Permission"),
+                  onPressed: () async {
+                    // You can request multiple permissions at once.
+                    Map<Permission, PermissionStatus> statuses = await [
+                      Permission.location,
+                      Permission.camera,
+                      //add more permission to request here.
+                    ].request();
+
+                    if(statuses[Permission.location].isDenied){ //check each permission status after.
+                      print("Location permission is denied.");
+                    }
+
+                    if(statuses[Permission.camera].isDenied){ //check each permission status after.
+                      print("Camera permission is denied.");
+                    }
+                  },
+                ),
+              ),
+
+              Container(
+                child: ElevatedButton(
+                  child: Text("Check Camera Permission"),
+                  onPressed: () async {
+                    //check permission without request popup
+                    var status = await Permission.camera.status;
+                    if (status.isDenied) {
+                      // We didn't ask for permission yet or the permission has been denied before but not permanently.
+                      print("Permission is denined.");
+                    }else if(status.isGranted){
+                      //permission is already granted.
+                      print("Permission is already granted.");
+                    }else if(status.isPermanentlyDenied){
+                      //permission is permanently denied.
+                      print("Permission is permanently denied");
+                    }else if(status.isRestricted){
+                      //permission is OS restricted.
+                      print("Permission is OS restricted.");
+                    }
+                  },
+                ),
+              )
+            ],
+          ),
+        )
     );
   }
 }
-
