@@ -1,99 +1,217 @@
+import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Test App",
-      home: HomePage(),
+      title: 'Flutter Contacts',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'Flutter Contacts'),
     );
   }
 }
 
-class HomePage extends StatefulWidget{
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyHomePageState extends State<MyHomePage> {
+  List<Contact> contacts = [];
+  List<Contact> contactsFiltered = [];
+  Map<String, Color> contactsColorMap = new Map();
+  TextEditingController searchController = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    getPermissions();
+  }
+  getPermissions() async {
+    if (await Permission.contacts.request().isGranted) {
+      getAllContacts();
+      searchController.addListener(() {
+        filterContacts();
+      });
+    }
+  }
+
+  String flattenPhoneNumber(String phoneStr) {
+    return phoneStr.replaceAllMapped(RegExp(r'^(\+)|\D'), (Match m) {
+      return m[0] == "+" ? "+" : "";
+    });
+  }
+
+  getAllContacts() async {
+    List colors = [
+      Colors.green,
+      Colors.indigo,
+      Colors.yellow,
+      Colors.orange,
+      Colors.red
+    ];
+    int colorIndex = 0;
+    List<Contact> _contacts = (await ContactsService.getContacts()).toList();
+    _contacts.forEach((contact) {
+      Color baseColor = colors[colorIndex];
+      contactsColorMap[contact.displayName] = baseColor;
+      colorIndex++;
+      if (colorIndex == colors.length) {
+        colorIndex = 0;
+      }
+    });
+    setState(() {
+      contacts = _contacts;
+    });
+  }
+
+  filterContacts() {
+    List<Contact> _contacts = [];
+    _contacts.addAll(contacts);
+    if (searchController.text.isNotEmpty) {
+      _contacts.retainWhere((contact) {
+        String searchTerm = searchController.text.toLowerCase();
+        String searchTermFlatten = flattenPhoneNumber(searchTerm);
+        String contactName = contact.displayName.toLowerCase();
+        bool nameMatches = contactName.contains(searchTerm);
+        if (nameMatches == true) {
+          return true;
+        }
+
+        if (searchTermFlatten.isEmpty) {
+          return false;
+        }
+
+        var phone = contact.phones.firstWhere((phn) {
+          String phnFlattened = flattenPhoneNumber(phn.value);
+          return phnFlattened.contains(searchTermFlatten);
+        }, orElse: () => null);
+
+        return phone != null;
+      });
+    }
+    setState(() {
+      contactsFiltered = _contacts;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isSearching = searchController.text.isNotEmpty;
+    bool listItemsExist = (contactsFiltered.length > 0 || contacts.length > 0);
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Request Permission"),
-          backgroundColor: Colors.redAccent,
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                    labelText: 'Search',
+                    border: new OutlineInputBorder(
+                        borderSide: new BorderSide(
+                            color: Theme.of(context).primaryColor
+                        )
+                    ),
+                    prefixIcon: Icon(
+                        Icons.search,
+                        color: Theme.of(context).primaryColor
+                    )
+                ),
+              ),
+            ),
+            listItemsExist == true ?
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: isSearching == true ? contactsFiltered.length : contacts.length,
+                itemBuilder: (context, index) {
+                  Contact contact = isSearching == true ? contactsFiltered[index] : contacts[index];
+
+                  var baseColor = contactsColorMap[contact.displayName] as dynamic;
+
+                  Color color1 = baseColor[800];
+                  Color color2 = baseColor[400];
+                  return ListTile(
+                      title: Text(contact.displayName),
+                      subtitle: Text(
+                          contact.phones.length > 0 ? contact.phones.elementAt(0).value : ''
+                      ),
+                      leading: (contact.avatar != null && contact.avatar.length > 0) ?
+                      CircleAvatar(
+                        backgroundImage: MemoryImage(contact.avatar),
+                      ) :
+                      Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                  colors: [
+                                    color1,
+                                    color2,
+                                  ],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight
+                              )
+                          ),
+                          child: CircleAvatar(
+                              child: Text(
+                                  contact.initials(),
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  )
+                              ),
+                              backgroundColor: Colors.transparent
+                          )
+                      )
+                  );
+                },
+              ),
+            ) : Container(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                  isSearching ?'No search results to show' : 'No contacts exist',
+                  style: Theme.of(context).textTheme.headline6
+              ) ,
+            )
+          ],
         ),
-        body: Container(
-          alignment: Alignment.center,
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                child: ElevatedButton(
-                  child: Text("Request Single Permission"),
-                  onPressed: () async {
-                    if (await Permission.location.request().isGranted) {
-                      // Either the permission was already granted before or the user just granted it.
-                      print("Location Permission is granted");
-                    }else{
-                      print("Location Permission is denied.");
-                    }
-                  },
-                ),
-              ),
-
-              Container(
-                child: ElevatedButton(
-                  child: Text("Request Multiple Permission"),
-                  onPressed: () async {
-                    // You can request multiple permissions at once.
-                    Map<Permission, PermissionStatus> statuses = await [
-                      Permission.location,
-                      Permission.camera,
-                      //add more permission to request here.
-                    ].request();
-
-                    if(statuses[Permission.location].isDenied){ //check each permission status after.
-                      print("Location permission is denied.");
-                    }
-
-                    if(statuses[Permission.camera].isDenied){ //check each permission status after.
-                      print("Camera permission is denied.");
-                    }
-                  },
-                ),
-              ),
-
-              Container(
-                child: ElevatedButton(
-                  child: Text("Check Camera Permission"),
-                  onPressed: () async {
-                    //check permission without request popup
-                    var status = await Permission.camera.status;
-                    if (status.isDenied) {
-                      // We didn't ask for permission yet or the permission has been denied before but not permanently.
-                      print("Permission is denined.");
-                    }else if(status.isGranted){
-                      //permission is already granted.
-                      print("Permission is already granted.");
-                    }else if(status.isPermanentlyDenied){
-                      //permission is permanently denied.
-                      print("Permission is permanently denied");
-                    }else if(status.isRestricted){
-                      //permission is OS restricted.
-                      print("Permission is OS restricted.");
-                    }
-                  },
-                ),
-              )
-            ],
-          ),
-        )
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColorDark,
+        onPressed: () async {
+          try{
+            Contact contact = await ContactsService.openContactForm();
+            if(contact != null) {
+              getAllContacts();
+            }
+          }
+          on FormOperationException catch(e) {
+            switch(e.errorCode) {
+              case FormOperationErrorCode.FORM_OPERATION_CANCELED:
+              case FormOperationErrorCode.FORM_COULD_NOT_BE_OPEN:
+              case FormOperationErrorCode.FORM_OPERATION_UNKNOWN_ERROR:
+                print(e.toString());
+                break;
+            }
+          }
+        }
+      ),
     );
   }
 }
