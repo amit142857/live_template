@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 import 'dart:io';
 
-
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googlesignin = new GoogleSignIn();
 
@@ -15,7 +13,6 @@ void main() {
   ));
 }
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -24,7 +21,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   String _status;
-
 
   @override
   void initState() {
@@ -40,6 +36,28 @@ class _HomeState extends State<Home> {
     } else {
       setState(() {
         _status = "Sign in Failed";
+      });
+    }
+  }
+
+  void _signInGoogle() async {
+    GoogleSignInAccount googleUser = await _googlesignin.signIn();
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user = await _auth.signInWithCredential(credential);
+
+    if (user != null && user.isAnonymous == false){
+      setState(() {
+        _status = "Signed in with google";
+      });
+    } else {
+      setState(() {
+        _status = "Google sign in failed";
       });
     }
   }
@@ -61,16 +79,13 @@ class _HomeState extends State<Home> {
         padding: EdgeInsets.all(32),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children:<Widget> [
               Text(_status),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children:<Widget> [
-                  ElevatedButton(onPressed: _signOut, child: Text("Sign Out")),
-                  ElevatedButton(onPressed: _signInAnon, child: Text("Sign in Annonymously"))
-                ],
-              )
+              ElevatedButton(onPressed: _signOut, child: Text("Sign Out")),
+              ElevatedButton(onPressed: _signInAnon, child: Text("Sign in Annonymously")),
+              ElevatedButton(onPressed: _signInGoogle, child: Text('Sign in with google'))
             ],
           ),
         ),
